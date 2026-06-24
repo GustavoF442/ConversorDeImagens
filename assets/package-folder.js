@@ -22,9 +22,9 @@ function cleanTargetDir() {
     const backupDir = `${targetDir}.old-${Date.now()}`;
     try {
       fs.renameSync(targetDir, backupDir);
-      console.log(`Previous folder locked. Renamed to: ${backupDir}`);
+      console.log(`Pasta anterior bloqueada. Renomeada para: ${backupDir}`);
     } catch (renameErr) {
-      console.log(`Warning: could not replace previous folder. It may be in use.`);
+      console.log(`Aviso: nao foi possivel substituir a pasta anterior. Ela pode estar em uso.`);
     }
   }
 }
@@ -60,7 +60,7 @@ function copyRuntimeDlls() {
       if (fs.existsSync(sourcePath)) {
         const destPath = path.join(targetDir, dll);
         fs.copyFileSync(sourcePath, destPath);
-        console.log(`Copied runtime DLL: ${dll}`);
+        console.log(`DLL de runtime copiada: ${dll}`);
         break;
       }
     }
@@ -80,7 +80,7 @@ function copySharpNativeLibs() {
   );
 
   if (!fs.existsSync(sharpLibSource)) {
-    console.log('Warning: sharp native libs source not found');
+    console.log('Aviso: bibliotecas nativas do sharp nao encontradas');
     return;
   }
 
@@ -94,7 +94,7 @@ function copySharpNativeLibs() {
     const destPath = path.join(sharpLibDest, file);
     if (fs.statSync(sourcePath).isFile()) {
       fs.copyFileSync(sourcePath, destPath);
-      console.log(`Copied sharp native lib: ${file}`);
+      console.log(`Biblioteca nativa do sharp copiada: ${file}`);
     }
   }
 }
@@ -111,8 +111,10 @@ Para usar:
 2. Execute o arquivo "${appName}.exe".
 3. Pronto.
 
-A pasta pode ser copiada para qualquer lugar do computador
-ou para um pendrive.
+A pasta pode ser copiada para qualquer lugar do computador,
+para um pendrive ou para outro computador.
+
+Nao e necessario instalar Node.js, Visual C++ nem nenhum outro programa.
 
 `;
   fs.writeFileSync(readmePath, content, 'utf8');
@@ -150,18 +152,18 @@ async function buildUnpacked() {
 
 async function main() {
   const sourceDir = await buildUnpacked();
-  console.log(`Built at: ${sourceDir}`);
+  console.log(`Compilado em: ${sourceDir}`);
 
-  console.log(`Creating folder version: ${targetDir}`);
+  console.log(`Criando versao em pasta: ${targetDir}`);
   cleanTargetDir();
   copyFolder(sourceDir, targetDir);
   copyRuntimeDlls();
   copySharpNativeLibs();
   createReadme();
 
-  console.log(`\nDone! Folder version created at:`);
+  console.log(`\nPronto! Versao em pasta criada em:`);
   console.log(targetDir);
-  console.log(`\nExecutable: ${path.join(targetDir, `${appName}.exe`)}`);
+  console.log(`\nExecutavel: ${path.join(targetDir, `${appName}.exe`)}`);
 
   // Clean up temporary build directories
   const tempDirs = [
@@ -172,9 +174,9 @@ async function main() {
     if (fs.existsSync(tempDir)) {
       try {
         fs.rmSync(tempDir, { recursive: true, force: true });
-        console.log(`Cleaned up: ${tempDir}`);
+        console.log(`Limpo: ${tempDir}`);
       } catch (err) {
-        console.log(`Could not clean up (in use or locked): ${tempDir}`);
+        console.log(`Nao foi possivel limpar (em uso ou bloqueado): ${tempDir}`);
       }
     }
   }

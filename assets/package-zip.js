@@ -16,7 +16,7 @@ function findFolderVersion() {
   const entries = fs.readdirSync(releaseDir, { withFileTypes: true });
   const folder = entries.find(e => e.isDirectory() && e.name.startsWith(`${appName} v`));
   if (!folder) {
-    throw new Error(`Folder version not found in ${releaseDir}. Run "npm run package:folder" first.`);
+    throw new Error(`Versao em pasta nao encontrada em ${releaseDir}. Execute "npm run package:folder" primeiro.`);
   }
   return path.join(releaseDir, folder.name);
 }
@@ -44,15 +44,15 @@ function main() {
     fs.rmSync(zipPath, { force: true });
   }
 
-  console.log(`Creating ZIP: ${zipPath}`);
+  console.log(`Criando ZIP: ${zipPath}`);
   const zip = new AdmZip();
   addFolderToZip(zip, sourceFolder, '');
   zip.writeZip(zipPath);
 
   const stats = fs.statSync(zipPath);
-  console.log(`\nDone! ZIP created at:`);
+  console.log(`\nPronto! ZIP criado em:`);
   console.log(zipPath);
-  console.log(`Size: ${(stats.size / 1024 / 1024).toFixed(2)} MB`);
+  console.log(`Tamanho: ${(stats.size / 1024 / 1024).toFixed(2)} MB`);
 }
 
 main();

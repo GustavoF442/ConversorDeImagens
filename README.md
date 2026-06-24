@@ -1,118 +1,118 @@
-# Footwear Sketch Generator
+# Conversor de Imagens para Calçados
 
-Professional desktop application for converting footwear photos into technical drawings for catalogs, thermal printing (Argox), labels, and product development documentation.
+Aplicativo desktop profissional para converter fotos de calçados em desenhos técnicos para catálogos, impressão térmica (Argox), etiquetas e documentação de desenvolvimento de produtos.
 
-## Features
+## Funcionalidades
 
-### Image Processing
-- **Line Art** — Clean black outlines on white background via Sobel edge detection
-- **Line Art + Solid** — Lines with dark/textured areas filled as solid black
-- **Technical Sheet** — Industrial-style drawing with border frame
-- **Silhouette** — Pure black shape on white background
+### Processamento de Imagens
+- **Line Art** — Contornos pretos limpos em fundo branco via detecção de bordas Sobel
+- **Line Art + Solid** — Linhas com áreas escuras/texturizadas preenchidas de preto sólido
+- **Technical Sheet** — Desenho estilo industrial com moldura de borda
+- **Silhouette** — Forma pura preta em fundo branco
 
-### Adjustable Parameters
-- Line Thickness (1–10)
-- Detection Sensitivity (1–100)
-- Black Fill Intensity (1–100)
-- Contrast (50–200)
-- Sharpness (0–100)
+### Parâmetros Ajustáveis
+- Espessura da Linha (1–10)
+- Sensibilidade de Detecção (1–100)
+- Intensidade de Preenchimento Preto (1–100)
+- Contraste (50–200)
+- Nitidez (0–100)
 
-### Batch Processing
-- Import entire folders or multiple files
-- Drag and drop support
-- Process hundreds of images with parallel Canvas workers
-- Progress tracking with ETA
+### Processamento em Lote
+- Importe pastas inteiras ou vários arquivos
+- Suporte a arrastar e soltar
+- Processe centenas de imagens com workers Canvas paralelos
+- Acompanhamento de progresso com ETA
 
-### Export Formats
-- **PNG** — Raster output with optional size compression
-- **SVG** — Vector output via run-length bitmap tracing
-- **PDF** — Embedded image in standard PDF document
+### Formatos de Exportação
+- **PNG** — Saída raster com compressão de tamanho opcional
+- **SVG** — Saída vetorial via traçamento de bitmap run-length
+- **PDF** — Imagem embutida em documento PDF padrão
 
-### Argox Thermal Print Optimization
-- Pure black (#000000) and white (#FFFFFF) only
-- No grayscale, no anti-aliasing
-- Optimized for 203 DPI and 300 DPI
-- Configurable label dimensions (mm)
-- Maximum contrast for thermal printing
+### Otimização para Impressão Térmica Argox
+- Apenas preto puro (#000000) e branco (#FFFFFF)
+- Sem escala de cinza, sem anti-aliasing
+- Otimizado para 203 DPI e 300 DPI
+- Dimensões de etiqueta configuráveis (mm)
+- Contraste máximo para impressão térmica
 
-### Dark Area Solidification
-Automatically detects stippled/dotted/textured dark regions and converts them to solid black fills — critical for clean thermal label printing on Argox printers.
+### Solidificação de Áreas Escuras
+Detecta automaticamente regiões escuras pontilhadas/texturizadas e as converte em preenchimentos pretos sólidos — essencial para impressão limpa de etiquetas térmicas em impressoras Argox.
 
-### Output Size Presets
+### Tamanhos de Saída Predefinidos
 - 50×50mm, 60×40mm, 80×50mm, 100×60mm
-- Custom dimensions via Argox settings
-- Proportional scaling with centering
+- Dimensões personalizadas via configurações Argox
+- Escala proporcional com centralização
 
-### File Size Control
-- Configurable max file size: 50KB, 100KB, 200KB, 500KB
-- Automatic resolution reduction to meet targets
-- PNG compression optimization
+### Controle de Tamanho de Arquivo
+- Tamanho máximo configurável: 50KB, 100KB, 200KB, 500KB
+- Redução automática de resolução para atingir metas
+- Otimização de compressão PNG
 
-### AI Integration (Optional)
-- Customizable prompt field for OpenAI / Claude / Gemini
-- Default prompt optimized for footwear technical drawings
+### Integração com IA (Opcional)
+- Campo de prompt personalizável para OpenAI / Claude / Gemini
+- Prompt padrão otimizado para desenhos técnicos de calçados
 
-## Quick Start
+## Início Rápido
 
-### Browser Version (No Installation Required)
-1. Open `footwear-sketch-generator.html` in any modern browser (Chrome, Edge, Firefox)
-2. Click **Select Folder** or **Select Files** to import footwear images
-3. Choose an output mode (Line Art, Line + Solid, Tech Sheet, Silhouette)
-4. Adjust settings in the right panel
-5. Click **Process Current** to preview, or **Process All** for batch processing
-6. Export as PNG, SVG, or PDF
+### Versão para Navegador (Sem Instalação)
+1. Abra `footwear-sketch-generator.html` em qualquer navegador moderno (Chrome, Edge, Firefox)
+2. Clique em **Selecionar Pasta** ou **Selecionar Arquivos** para importar imagens de calçados
+3. Escolha um modo de saída (Line Art, Line + Solid, Tech Sheet, Silhouette)
+4. Ajuste as configurações no painel direito
+5. Clique em **Processar Atual** para visualizar, ou **Processar Todos** para lote
+6. Exporte como PNG, SVG ou PDF
 
-### Electron Desktop App (Requires Node.js)
+### Aplicativo Desktop Electron (Requer Node.js)
 ```bash
 npm install
 npm run dev
 ```
 
-### Build Windows Executable
+### Gerar Executável para Windows
 
-#### Version as a folder (portable, no installation required)
+#### Versão em pasta (portátil, sem instalação)
 ```bash
 npm run package:folder
 ```
-This creates a complete folder inside `release/` that can be copied anywhere — including a USB drive — and opened by running `Footwear Sketch Generator.exe`. It does not require administrator privileges and does not modify the system.
+Cria uma pasta completa dentro de `release/` que pode ser copiada para qualquer lugar — incluindo um pendrive — e aberta executando `Footwear Sketch Generator.exe`. Não requer privilégios de administrador e não modifica o sistema.
 
-#### Zip file for distribution
+#### Arquivo ZIP para distribuição
 ```bash
 npm run package:zip
 ```
-Generates the same folder version and compresses it into `release/Footwear Sketch Generator v1.0.0.zip`.
+Gera a mesma versão em pasta e a compacta em `release/Footwear Sketch Generator v1.0.0.zip`.
 
-#### Windows installer (NSIS)
+#### Instalador Windows (NSIS)
 ```bash
 npm run package:win
 ```
-Generates an NSIS installer. Note: this requires administrator privileges on the build machine because it downloads code-signing tools.
+Gera um instalador NSIS. Observação: requer privilégios de administrador na máquina de build porque baixa ferramentas de assinatura de código.
 
-## Project Structure
+## Estrutura do Projeto
 
 ```
 D:\editor\
-├── footwear-sketch-generator.html  — Standalone browser application (all-in-one)
-├── package.json                     — Electron project configuration
-├── tsconfig.json                    — TypeScript config (renderer)
-├── tsconfig.main.json               — TypeScript config (main process)
-├── vite.config.ts                   — Vite bundler config
+├── footwear-sketch-generator.html  — Aplicativo standalone para navegador (tudo-em-um)
+├── package.json                     — Configuração do projeto Electron
+├── tsconfig.json                    — Config TypeScript (renderer)
+├── tsconfig.main.json               — Config TypeScript (processo principal)
+├── vite.config.ts                   — Config do bundler Vite
 ├── README.md
 │
 ├── src/
-│   ├── main/                        — Electron main process
-│   │   ├── main.ts                  — App window, IPC handlers
-│   │   ├── preload.ts               — Context bridge API
-│   │   ├── imageProcessor.ts        — Sharp-based image processing engine
-│   │   ├── batchProcessor.ts        — Parallel batch processing with progress
-│   │   └── exportManager.ts         — PNG/SVG/PDF export with tracing
+│   ├── main/                        — Processo principal do Electron
+│   │   ├── main.ts                  — Janela do app, handlers IPC
+│   │   ├── preload.ts               — API da context bridge
+│   │   ├── imageProcessor.ts        — Motor de processamento de imagens com Sharp
+│   │   ├── batchProcessor.ts        — Processamento em lote paralelo com progresso
+│   │   └── exportManager.ts         — Exportação PNG/SVG/PDF com traçamento
 │   │
-│   └── renderer/                    — React UI
+│   └── renderer/                    — Interface React
 │       ├── index.html
 │       ├── main.tsx
-│       ├── App.tsx                  — Main application component
-│       ├── types.ts                 — TypeScript interfaces
-│       ├── styles.css               — Full application styles
+│       ├── App.tsx                  — Componente principal da aplicação
+│       ├── types.ts                 — Interfaces TypeScript
+│       ├── styles.css               — Estilos completos da aplicação
 │       └── components/
 │           ├── TitleBar.tsx
 │           ├── Sidebar.tsx
@@ -122,37 +122,37 @@ D:\editor\
 │           └── StatusBar.tsx
 ```
 
-## Processing Pipeline
+## Pipeline de Processamento
 
-1. **Load** — Read image file via FileReader API (browser) or Sharp (Electron)
-2. **Grayscale** — Convert to luminance using ITU-R BT.601 coefficients
-3. **Contrast** — Apply linear contrast adjustment
-4. **Edge Detection** — Sobel operator with configurable kernel stride
-5. **Thresholding** — Binary threshold based on sensitivity setting
-6. **Line Dilation** — Morphological dilation for line thickness control
-7. **Dark Fill** — Block-based dark area detection and solid fill (Line+Solid mode)
-8. **Argox Optimization** — Hard threshold, DPI scaling, size constraints
-9. **Output Resize** — Proportional fit to target dimensions in mm
-10. **Compression** — Progressive quality reduction to meet file size target
+1. **Carregamento** — Lê arquivo de imagem via FileReader API (navegador) ou Sharp (Electron)
+2. **Escala de Cinza** — Converte para luminância usando coeficientes ITU-R BT.601
+3. **Contraste** — Aplica ajuste linear de contraste
+4. **Detecção de Bordas** — Operador Sobel com stride configurável do kernel
+5. **Limiarização** — Limiar binário baseado na configuração de sensibilidade
+6. **Dilatação de Linhas** — Dilatação morfológica para controle de espessura
+7. **Preenchimento Escuro** — Detecção e preenchimento sólido de áreas escuras (modo Line+Solid)
+8. **Otimização Argox** — Limiar rígido, escala DPI e restrições de tamanho
+9. **Redimensionamento de Saída** — Ajuste proporcional às dimensões alvo em mm
+10. **Compressão** — Redução progressiva de qualidade para atingir tamanho alvo
 
-## Technology
+## Tecnologia
 
-| Component | Browser Version | Electron Version |
-|-----------|----------------|-----------------|
-| Image Processing | Canvas 2D API | Sharp (libvips) |
-| Edge Detection | Sobel (JavaScript) | Sobel + Sharp filters |
-| Vectorization | Run-length SVG tracing | Potrace |
-| PDF Export | Manual PDF builder | PDFKit |
-| UI Framework | Vanilla HTML/CSS/JS | React + TypeScript |
-| Batch Processing | Promise.all batches | Worker threads |
+| Componente | Versão Navegador | Versão Electron |
+|-----------|-----------------|----------------|
+| Processamento de Imagem | Canvas 2D API | Sharp (libvips) |
+| Detecção de Bordas | Sobel (JavaScript) | Sobel + filtros Sharp |
+| Vetorização | Traçamento SVG run-length | Potrace |
+| Exportação PDF | Construtor manual de PDF | PDFKit |
+| Framework UI | HTML/CSS/JS vanilla | React + TypeScript |
+| Processamento em Lote | Batches Promise.all | Worker threads |
 
-## System Requirements
+## Requisitos do Sistema
 
-- **Browser version**: Any modern browser (Chrome 90+, Edge 90+, Firefox 88+)
-- **Electron version**: Node.js 18+, Windows 10/11
-- **RAM**: 4GB minimum, 8GB recommended for batch processing
-- **CPU**: Multi-core recommended for batch operations
+- **Versão navegador**: Qualquer navegador moderno (Chrome 90+, Edge 90+, Firefox 88+)
+- **Versão Electron**: Node.js 18+, Windows 10/11
+- **RAM**: 4GB mínimo, 8GB recomendado para processamento em lote
+- **CPU**: Multi-core recomendado para operações em lote
 
-## License
+## Licença
 
-Proprietary — All rights reserved.
+Proprietária — Todos os direitos reservados.
