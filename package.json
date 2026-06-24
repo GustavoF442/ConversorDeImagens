@@ -1,0 +1,85 @@
+{
+  "name": "footwear-sketch-generator",
+  "version": "1.0.0",
+  "description": "Professional footwear photo to technical drawing converter for catalogs, thermal printing, and product development",
+  "main": "dist/main/main.js",
+  "scripts": {
+    "dev": "concurrently \"npm run dev:main\" \"npm run dev:renderer\"",
+    "dev:main": "tsc -p tsconfig.main.json && electron .",
+    "dev:renderer": "vite",
+    "build": "npm run build:renderer && npm run build:main",
+    "build:main": "tsc -p tsconfig.main.json",
+    "build:renderer": "vite build",
+    "create-icon": "node assets/create-icon.js",
+    "package": "npm run build && electron-builder",
+    "package:win": "npm run create-icon && npm run build && electron-builder --win",
+    "package:folder": "npm run create-icon && npm run build && node assets/package-folder.js",
+    "package:zip": "npm run package:folder && node assets/package-zip.js"
+  },
+  "build": {
+    "appId": "com.footwear.sketch-generator",
+    "productName": "Footwear Sketch Generator",
+    "directories": {
+      "output": "release"
+    },
+    "files": [
+      "dist/**/*",
+      "node_modules/**/*"
+    ],
+    "win": {
+      "target": [
+        {
+          "target": "dir",
+          "arch": [
+            "x64"
+          ]
+        },
+        {
+          "target": "portable",
+          "arch": [
+            "x64"
+          ]
+        },
+        {
+          "target": "nsis",
+          "arch": [
+            "x64"
+          ]
+        }
+      ],
+      "icon": "assets/icon.ico"
+    },
+    "nsis": {
+      "oneClick": false,
+      "allowToChangeInstallationDirectory": true,
+      "createDesktopShortcut": true,
+      "createStartMenuShortcut": true
+    },
+    "portable": {
+      "artifactName": "${productName}-${version}-Portable.${ext}"
+    }
+  },
+  "dependencies": {
+    "electron-store": "^8.1.0",
+    "pdfkit": "^0.14.0",
+    "potrace": "^2.1.8",
+    "sharp": "^0.33.2",
+    "svg2pdf.js": "^2.2.3"
+  },
+  "devDependencies": {
+    "@electron/packager": "^20.0.1",
+    "@types/node": "^20.11.0",
+    "@types/react": "^18.2.48",
+    "@types/react-dom": "^18.2.18",
+    "@vitejs/plugin-react": "^4.2.1",
+    "adm-zip": "^0.5.17",
+    "concurrently": "^8.2.2",
+    "electron": "^28.1.3",
+    "electron-builder": "^24.9.1",
+    "lucide-react": "^0.312.0",
+    "react": "^18.2.0",
+    "react-dom": "^18.2.0",
+    "typescript": "^5.3.3",
+    "vite": "^5.0.12"
+  }
+}
