@@ -4,7 +4,7 @@ const AdmZip = require('adm-zip');
 
 const rootDir = path.resolve(__dirname, '..');
 const releaseDir = path.join(rootDir, 'release');
-const appName = 'Footwear Sketch Generator';
+const appName = 'Conversor de Imagens';
 const version = getVersion();
 
 function getVersion() {

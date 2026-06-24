@@ -54,12 +54,16 @@ declare global {
     api: {
       selectFolder: () => Promise<string | null>;
       selectFiles: () => Promise<string[] | null>;
+      selectAnyImages: () => Promise<string[] | null>;
+      selectPdfs: () => Promise<string[] | null>;
       selectOutputFolder: () => Promise<string | null>;
       scanFolder: (path: string) => Promise<{ files: FileInfo[]; totalSize: number; count: number }>;
       processSingle: (path: string, settings: ProcessingSettings) => Promise<any>;
       processBatch: (files: string[], outputDir: string, settings: ProcessingSettings) => Promise<{ success: number; errors: string[] }>;
       exportFiles: (data: any) => Promise<{ paths: string[] }>;
       getPreview: (path: string, settings: ProcessingSettings) => Promise<string>;
+      mergePdfs: (files: string[], outputDir: string) => Promise<{ path: string }>;
+      convertImages: (files: string[], outputDir: string, format: string, quality: number) => Promise<{ success: number; errors: string[] }>;
       openFolder: (path: string) => Promise<void>;
       onBatchProgress: (callback: (progress: BatchProgress) => void) => () => void;
       windowMinimize: () => Promise<void>;
@@ -68,3 +72,4 @@ declare global {
     };
   }
 }
+

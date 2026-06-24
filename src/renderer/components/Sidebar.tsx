@@ -12,10 +12,10 @@ interface SidebarProps {
 }
 
 const MODES = [
-  { id: 'line-art' as const, label: 'Line Art', icon: '✏️' },
-  { id: 'line-art-solid' as const, label: 'Line + Solid', icon: '🖊️' },
-  { id: 'technical-sheet' as const, label: 'Tech Sheet', icon: '📐' },
-  { id: 'silhouette' as const, label: 'Silhouette', icon: '👤' },
+  { id: 'line-art' as const, label: 'Contorno', icon: '✏️' },
+  { id: 'line-art-solid' as const, label: 'Contorno + Preenchido', icon: '🖊️' },
+  { id: 'technical-sheet' as const, label: 'Ficha Técnica', icon: '📐' },
+  { id: 'silhouette' as const, label: 'Silhueta', icon: '👤' },
 ];
 
 export function Sidebar({
@@ -34,19 +34,19 @@ export function Sidebar({
   return (
     <div className="sidebar">
       <div className="sidebar-section">
-        <div className="sidebar-label">Import</div>
+        <div className="sidebar-label">Importar</div>
         <div style={{ display: 'flex', flexDirection: 'column', gap: 6 }}>
           <button className="btn" onClick={onSelectFolder}>
-            <FolderPlusIcon /> Select Folder
+            <FolderPlusIcon /> Selecionar Pasta
           </button>
           <button className="btn" onClick={onSelectFiles}>
-            <FilePlusIcon /> Select Files
+            <FilePlusIcon /> Selecionar Arquivos
           </button>
         </div>
       </div>
 
       <div className="sidebar-section">
-        <div className="sidebar-label">Output Mode</div>
+        <div className="sidebar-label">Modo de Saída</div>
         <div className="mode-grid">
           {MODES.map(mode => (
             <div
@@ -62,11 +62,11 @@ export function Sidebar({
       </div>
 
       <div className="sidebar-section sidebar-scroll">
-        <div className="sidebar-label">Files ({files.length})</div>
+        <div className="sidebar-label">Arquivos ({files.length})</div>
         <div className="file-list">
           {files.length === 0 && (
             <div style={{ padding: '16px', textAlign: 'center', color: 'var(--text-muted)', fontSize: 11 }}>
-              No images loaded. Import a folder or drag files here.
+              Nenhuma imagem carregada. Importe uma pasta ou arraste arquivos aqui.
             </div>
           )}
           {files.map((file, idx) => (

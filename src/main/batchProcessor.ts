@@ -2,8 +2,7 @@ import fs from 'fs';
 import path from 'path';
 import os from 'os';
 import sharp from 'sharp';
-import { ImageProcessor, ProcessingSettings, ProcessingResult } from './imageProcessor';
-import { ExportManager } from './exportManager';
+import { ImageProcessor, ProcessingSettings } from './imageProcessor';
 
 const SUPPORTED_EXTENSIONS = ['.jpg', '.jpeg', '.png', '.webp', '.bmp', '.tiff', '.tif'];
 
@@ -32,11 +31,48 @@ export interface FileInfo {
 
 export class BatchProcessor {
   private processor: ImageProcessor;
-  private exportManager: ExportManager;
 
   constructor(processor: ImageProcessor) {
     this.processor = processor;
-    this.exportManager = new ExportManager();
+  }
+
+  private async convertToJpgWithSizeLimit(buffer: Buffer, maxBytes: number | null): Promise<Buffer> {
+    // Ensure white background before converting to JPG
+    let pipeline = sharp(buffer)
+      .flatten({ background: { r: 255, g: 255, b: 255 } })
+      .jpeg({ quality: 95, progressive: true });
+
+    let result = await pipeline.toBuffer();
+
+    if (!maxBytes || result.length <= maxBytes) {
+      return result;
+    }
+
+    // Reduce quality progressively
+    for (let quality = 90; quality >= 30; quality -= 10) {
+      result = await sharp(buffer)
+        .flatten({ background: { r: 255, g: 255, b: 255 } })
+        .jpeg({ quality, progressive: true })
+        .toBuffer();
+      if (result.length <= maxBytes) return result;
+    }
+
+    // If still too big, reduce dimensions
+    const metadata = await sharp(buffer).metadata();
+    let scale = 0.9;
+    while (scale > 0.1) {
+      const newWidth = Math.round((metadata.width || 800) * scale);
+      const newHeight = Math.round((metadata.height || 600) * scale);
+      result = await sharp(buffer)
+        .flatten({ background: { r: 255, g: 255, b: 255 } })
+        .resize(newWidth, newHeight, { fit: 'inside', background: { r: 255, g: 255, b: 255 } })
+        .jpeg({ quality: 60, progressive: true })
+        .toBuffer();
+      if (result.length <= maxBytes) return result;
+      scale -= 0.1;
+    }
+
+    return result;
   }
 
   scanFolder(folderPath: string): ScanResult {
@@ -78,16 +114,9 @@ export class BatchProcessor {
     const cpuCount = os.cpus().length;
     const concurrency = Math.max(1, Math.min(cpuCount - 1, 8));
 
-    // Create output subdirectories
-    const jpgDir = path.join(outputDir, 'JPG');
-    const svgDir = path.join(outputDir, 'SVG');
-    const pdfDir = path.join(outputDir, 'PDF');
-    const argoxDir = path.join(outputDir, 'Argox');
-
-    for (const dir of [jpgDir, svgDir, pdfDir, argoxDir]) {
-      if (!fs.existsSync(dir)) {
-        fs.mkdirSync(dir, { recursive: true });
-      }
+    // Ensure output directory exists
+    if (!fs.existsSync(outputDir)) {
+      fs.mkdirSync(outputDir, { recursive: true });
     }
 
     const errors: string[] = [];
@@ -100,24 +129,10 @@ export class BatchProcessor {
       try {
         const result = await this.processor.processImage(filePath, settings);
 
-        // Save JPG (same base name as original, .jpg extension)
-        const jpgBuffer = await sharp(result.buffer).jpeg({ quality: 95 }).toBuffer();
-        await fs.promises.writeFile(path.join(jpgDir, `${fileName}.jpg`), jpgBuffer);
-
-        // Save SVG via tracing
-        const svgContent = await this.exportManager.bufferToSvg(result.buffer, result.width, result.height);
-        await fs.promises.writeFile(path.join(svgDir, `${fileName}.svg`), svgContent);
-
-        // Save PDF
-        const pdfBuffer = await this.exportManager.bufferToPdf(result.buffer, result.width, result.height, fileName);
-        await fs.promises.writeFile(path.join(pdfDir, `${fileName}.pdf`), pdfBuffer);
-
-        // Save Argox-optimized
-        if (settings.argoxMode) {
-          const argoxSettings = { ...settings, argoxMode: true };
-          const argoxResult = await this.processor.processImage(filePath, argoxSettings);
-          await fs.promises.writeFile(path.join(argoxDir, `${fileName}.png`), argoxResult.buffer);
-        }
+        // Convert processed PNG to JPG, keeping white background
+        const maxBytes = settings.maxFileSize ? settings.maxFileSize * 1024 : null;
+        const jpgBuffer = await this.convertToJpgWithSizeLimit(result.buffer, maxBytes);
+        await fs.promises.writeFile(path.join(outputDir, `${fileName}.jpg`), jpgBuffer);
 
         completed++;
       } catch (err: any) {

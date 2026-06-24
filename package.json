@@ -1,7 +1,7 @@
 {
-  "name": "footwear-sketch-generator",
+  "name": "conversor-de-imagens",
   "version": "1.0.0",
-  "description": "Professional footwear photo to technical drawing converter for catalogs, thermal printing, and product development",
+  "description": "Conversor de imagens profissional desenvolvido por Gustavo Fraga para calçados, PDFs e conversão entre formatos",
   "main": "dist/main/main.js",
   "scripts": {
     "dev": "concurrently \"npm run dev:main\" \"npm run dev:renderer\"",
@@ -17,8 +17,8 @@
     "package:zip": "npm run package:folder && node assets/package-zip.js"
   },
   "build": {
-    "appId": "com.footwear.sketch-generator",
-    "productName": "Footwear Sketch Generator",
+    "appId": "com.gustavofraga.conversor-de-imagens",
+    "productName": "Conversor de Imagens",
     "directories": {
       "output": "release"
     },
@@ -61,6 +61,7 @@
   },
   "dependencies": {
     "electron-store": "^8.1.0",
+    "pdf-lib": "^1.17.1",
     "pdfkit": "^0.14.0",
     "potrace": "^2.1.8",
     "sharp": "^0.33.2",

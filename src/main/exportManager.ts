@@ -28,7 +28,10 @@ export class ExportManager {
 
         case 'jpg':
         case 'jpeg':
-          const jpgBuffer = await sharp(buffer).jpeg({ quality: 95 }).toBuffer();
+          const jpgBuffer = await sharp(buffer)
+            .flatten({ background: { r: 255, g: 255, b: 255 } })
+            .jpeg({ quality: 95, progressive: true })
+            .toBuffer();
           await fs.promises.writeFile(filePath, jpgBuffer);
           paths.push(filePath);
           break;

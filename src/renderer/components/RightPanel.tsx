@@ -30,34 +30,34 @@ export function RightPanel({ settings, onSettingsChange, selectedFile }: RightPa
     <div className="right-panel">
       {/* Adjustments */}
       <div className="sidebar-section">
-        <div className="sidebar-label">Adjustments</div>
+        <div className="sidebar-label">Ajustes</div>
         <div className="slider-group">
           <SliderItem
-            label="Line Thickness"
+            label="Espessura da Linha"
             value={settings.lineThickness}
             min={1} max={10} step={1}
             onChange={v => update({ lineThickness: v })}
           />
           <SliderItem
-            label="Detection Sensitivity"
+            label="Sensibilidade de Detecção"
             value={settings.detectionSensitivity}
             min={1} max={100} step={1}
             onChange={v => update({ detectionSensitivity: v })}
           />
           <SliderItem
-            label="Black Fill Intensity"
+            label="Intensidade de Preenchimento Preto"
             value={settings.blackFillIntensity}
             min={1} max={100} step={1}
             onChange={v => update({ blackFillIntensity: v })}
           />
           <SliderItem
-            label="Contrast"
+            label="Contraste"
             value={settings.contrast}
             min={50} max={200} step={1}
             onChange={v => update({ contrast: v })}
           />
           <SliderItem
-            label="Sharpness"
+            label="Nitidez"
             value={settings.sharpness}
             min={0} max={100} step={1}
             onChange={v => update({ sharpness: v })}
@@ -67,14 +67,14 @@ export function RightPanel({ settings, onSettingsChange, selectedFile }: RightPa
 
       {/* Options */}
       <div className="sidebar-section">
-        <div className="sidebar-label">Options</div>
+        <div className="sidebar-label">Opções</div>
         <label className="checkbox-item">
           <input
             type="checkbox"
             checked={settings.removeBackground}
             onChange={e => update({ removeBackground: e.target.checked })}
           />
-          <span className="checkbox-label">Remove Background</span>
+          <span className="checkbox-label">Remover Fundo</span>
         </label>
         <label className="checkbox-item">
           <input
@@ -82,20 +82,20 @@ export function RightPanel({ settings, onSettingsChange, selectedFile }: RightPa
             checked={settings.solidifyDarkAreas}
             onChange={e => update({ solidifyDarkAreas: e.target.checked })}
           />
-          <span className="checkbox-label">Solidify Dark Areas</span>
+          <span className="checkbox-label">Solidificar Áreas Escuras</span>
         </label>
       </div>
 
       {/* Argox */}
       <div className="sidebar-section">
-        <div className="sidebar-label">Argox Thermal Print</div>
+        <div className="sidebar-label">Impressão Térmica Argox</div>
         <label className="checkbox-item">
           <input
             type="checkbox"
             checked={settings.argoxMode}
             onChange={e => update({ argoxMode: e.target.checked })}
           />
-          <span className="checkbox-label">Enable Argox Mode</span>
+          <span className="checkbox-label">Ativar Modo Argox</span>
         </label>
         {settings.argoxMode && (
           <>
@@ -111,7 +111,7 @@ export function RightPanel({ settings, onSettingsChange, selectedFile }: RightPa
             </div>
             <div className="input-row" style={{ marginTop: 8 }}>
               <div className="input-field">
-                <label>Width (mm)</label>
+                <label>Largura (mm)</label>
                 <input
                   type="number"
                   value={settings.argoxMaxWidth}
@@ -119,7 +119,7 @@ export function RightPanel({ settings, onSettingsChange, selectedFile }: RightPa
                 />
               </div>
               <div className="input-field">
-                <label>Height (mm)</label>
+                <label>Altura (mm)</label>
                 <input
                   type="number"
                   value={settings.argoxMaxHeight}
@@ -133,7 +133,7 @@ export function RightPanel({ settings, onSettingsChange, selectedFile }: RightPa
 
       {/* Output Size */}
       <div className="sidebar-section">
-        <div className="sidebar-label">Output Size</div>
+        <div className="sidebar-label">Tamanho de Saída</div>
         <div className="size-presets">
           <div
             className={`size-preset ${settings.outputSize === null ? 'active' : ''}`}
@@ -157,13 +157,13 @@ export function RightPanel({ settings, onSettingsChange, selectedFile }: RightPa
 
       {/* Max File Size */}
       <div className="sidebar-section">
-        <div className="sidebar-label">Max File Size</div>
+        <div className="sidebar-label">Tamanho Máximo do Arquivo</div>
         <div className="filesize-options">
           <div
             className={`size-preset ${settings.maxFileSize === null ? 'active' : ''}`}
             onClick={() => update({ maxFileSize: null })}
           >
-            No Limit
+            Sem Limite
           </div>
           {FILE_SIZE_PRESETS.map(p => (
             <div
@@ -180,7 +180,7 @@ export function RightPanel({ settings, onSettingsChange, selectedFile }: RightPa
       {/* File Info */}
       {selectedFile && (
         <div className="sidebar-section">
-          <div className="sidebar-label">Selected File</div>
+          <div className="sidebar-label">Arquivo Selecionado</div>
           <div style={{ fontSize: 11, color: 'var(--text-secondary)', wordBreak: 'break-all' }}>
             {selectedFile.name}
           </div>

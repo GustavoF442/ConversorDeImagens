@@ -11,7 +11,7 @@ export function Viewer({ originalPreview, resultPreview, isDragging }: ViewerPro
     <div className="viewer">
       {isDragging && (
         <div className="drop-zone">
-          <div className="drop-zone-text">Drop images here</div>
+          <div className="drop-zone-text">Solte as imagens aqui</div>
         </div>
       )}
 
@@ -21,20 +21,20 @@ export function Viewer({ originalPreview, resultPreview, isDragging }: ViewerPro
           {originalPreview ? (
             <img src={originalPreview} alt="Original" />
           ) : (
-            <EmptyState text="Import images to begin" hint="Select a folder or drag and drop images" />
+            <EmptyState text="Importe imagens para começar" hint="Selecione uma pasta ou arraste e solte imagens" />
           )}
         </div>
       </div>
 
       <div className="viewer-panel">
-        <div className="viewer-header">Result</div>
+        <div className="viewer-header">Resultado</div>
         <div className="viewer-canvas" style={{ background: '#ffffff' }}>
           {resultPreview ? (
-            <img src={resultPreview} alt="Result" />
+            <img src={resultPreview} alt="Resultado" />
           ) : (
             <EmptyState
-              text="Preview will appear here"
-              hint="Select an image and adjust settings"
+              text="O preview aparecerá aqui"
+              hint="Selecione uma imagem e ajuste as configurações"
               dark={false}
             />
           )}

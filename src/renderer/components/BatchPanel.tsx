@@ -11,7 +11,7 @@ export function BatchPanel({ progress }: BatchPanelProps) {
       <div className="batch-stats">
         <div className="batch-stat">
           <div className="batch-stat-value">{progress.completed}</div>
-          <div className="batch-stat-label">Processed</div>
+          <div className="batch-stat-label">Processados</div>
         </div>
         <div className="batch-stat">
           <div className="batch-stat-value">{progress.total}</div>
@@ -19,11 +19,11 @@ export function BatchPanel({ progress }: BatchPanelProps) {
         </div>
         <div className="batch-stat">
           <div className="batch-stat-value">{progress.errors.length}</div>
-          <div className="batch-stat-label">Errors</div>
+          <div className="batch-stat-label">Erros</div>
         </div>
         <div className="batch-stat">
           <div className="batch-stat-value">{formatTime(progress.estimated)}</div>
-          <div className="batch-stat-label">Remaining</div>
+          <div className="batch-stat-label">Restante</div>
         </div>
       </div>
 
@@ -31,7 +31,7 @@ export function BatchPanel({ progress }: BatchPanelProps) {
         <div className="progress-fill" style={{ width: `${progress.percentage}%` }} />
       </div>
       <div className="progress-info">
-        <span>Processing: {progress.current}</span>
+        <span>Processando: {progress.current}</span>
         <span>{progress.percentage}%</span>
       </div>
     </div>

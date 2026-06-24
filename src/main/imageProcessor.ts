@@ -44,9 +44,11 @@ export class ImageProcessor {
     const originalWidth = metadata.width || 800;
     const originalHeight = metadata.height || 600;
 
-    // Step 1: Normalize and prepare
+    // Step 1: Normalize and prepare - flatten to white, convert to grayscale, then pure black & white
     pipeline = sharp(filePath)
+      .flatten({ background: { r: 255, g: 255, b: 255 } })
       .removeAlpha()
+      .greyscale()
       .toColorspace('b-w');
 
     // Step 2: Apply contrast

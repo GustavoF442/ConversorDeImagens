@@ -3,6 +3,8 @@ import path from 'path';
 import { ImageProcessor } from './imageProcessor';
 import { BatchProcessor } from './batchProcessor';
 import { ExportManager } from './exportManager';
+import { mergePdfs } from './pdfUtils';
+import { convertImages } from './imageConverter';
 
 let mainWindow: BrowserWindow | null = null;
 const imageProcessor = new ImageProcessor();
@@ -15,7 +17,7 @@ function createWindow() {
     height: 900,
     minWidth: 1100,
     minHeight: 700,
-    title: 'Footwear Sketch Generator',
+    title: 'Conversor de Imagens - Gustavo Fraga',
     backgroundColor: '#0f0f0f',
     webPreferences: {
       preload: path.join(__dirname, 'preload.js'),
@@ -55,7 +57,7 @@ app.on('activate', () => {
 ipcMain.handle('select-folder', async () => {
   const result = await dialog.showOpenDialog(mainWindow!, {
     properties: ['openDirectory'],
-    title: 'Select Folder with Footwear Images',
+    title: 'Selecionar Pasta com Imagens de Calçados',
   });
   if (result.canceled) return null;
   return result.filePaths[0];
@@ -65,9 +67,33 @@ ipcMain.handle('select-files', async () => {
   const result = await dialog.showOpenDialog(mainWindow!, {
     properties: ['openFile', 'multiSelections'],
     filters: [
-      { name: 'Images', extensions: ['jpg', 'jpeg', 'png', 'webp', 'bmp', 'tiff'] },
+      { name: 'Imagens', extensions: ['jpg', 'jpeg', 'png', 'webp', 'bmp', 'tiff'] },
     ],
-    title: 'Select Footwear Images',
+    title: 'Selecionar Imagens de Calçados',
+  });
+  if (result.canceled) return null;
+  return result.filePaths;
+});
+
+ipcMain.handle('select-any-images', async () => {
+  const result = await dialog.showOpenDialog(mainWindow!, {
+    properties: ['openFile', 'multiSelections'],
+    filters: [
+      { name: 'Imagens', extensions: ['jpg', 'jpeg', 'png', 'webp', 'bmp', 'tiff', 'tif', 'gif'] },
+    ],
+    title: 'Selecionar Imagens',
+  });
+  if (result.canceled) return null;
+  return result.filePaths;
+});
+
+ipcMain.handle('select-pdfs', async () => {
+  const result = await dialog.showOpenDialog(mainWindow!, {
+    properties: ['openFile', 'multiSelections'],
+    filters: [
+      { name: 'PDFs', extensions: ['pdf'] },
+    ],
+    title: 'Selecionar Arquivos PDF',
   });
   if (result.canceled) return null;
   return result.filePaths;
@@ -76,7 +102,7 @@ ipcMain.handle('select-files', async () => {
 ipcMain.handle('select-output-folder', async () => {
   const result = await dialog.showOpenDialog(mainWindow!, {
     properties: ['openDirectory', 'createDirectory'],
-    title: 'Select Output Folder',
+    title: 'Selecionar Pasta de Saída',
   });
   if (result.canceled) return null;
   return result.filePaths[0];
@@ -102,6 +128,14 @@ ipcMain.handle('export-files', async (_event, data: any) => {
 
 ipcMain.handle('get-preview', async (_event, filePath: string, settings: any) => {
   return imageProcessor.getPreview(filePath, settings);
+});
+
+ipcMain.handle('merge-pdfs', async (_event, files: string[], outputDir: string) => {
+  return mergePdfs(files, outputDir);
+});
+
+ipcMain.handle('convert-images', async (_event, files: string[], outputDir: string, format: string, quality: number) => {
+  return convertImages(files, outputDir, format, quality);
 });
 
 ipcMain.handle('open-folder', async (_event, folderPath: string) => {

@@ -3,7 +3,7 @@ const path = require('path');
 
 const rootDir = path.resolve(__dirname, '..');
 const releaseDir = path.join(rootDir, 'release');
-const appName = 'Footwear Sketch Generator';
+const appName = 'Conversor de Imagens';
 const folderName = `${appName} v${getVersion()}`;
 const targetDir = path.join(releaseDir, folderName);
 
