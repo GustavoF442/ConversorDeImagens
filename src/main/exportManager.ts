@@ -26,6 +26,13 @@ export class ExportManager {
           paths.push(filePath);
           break;
 
+        case 'jpg':
+        case 'jpeg':
+          const jpgBuffer = await sharp(buffer).jpeg({ quality: 95 }).toBuffer();
+          await fs.promises.writeFile(filePath, jpgBuffer);
+          paths.push(filePath);
+          break;
+
         case 'svg':
           const svg = await this.bufferToSvg(buffer, width, height);
           await fs.promises.writeFile(filePath, svg);

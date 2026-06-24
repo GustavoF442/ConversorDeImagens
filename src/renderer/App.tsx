@@ -136,7 +136,7 @@ export default function App() {
         height: result.height,
         name: result.originalName,
         outputDir: output,
-        formats: ['png', 'svg', 'pdf'],
+        formats: ['jpg', 'png', 'svg', 'pdf'],
       });
       showNotification('success', `Exported ${result.originalName}`);
     } catch (err: any) {

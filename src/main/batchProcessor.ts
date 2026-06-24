@@ -1,6 +1,7 @@
 import fs from 'fs';
 import path from 'path';
 import os from 'os';
+import sharp from 'sharp';
 import { ImageProcessor, ProcessingSettings, ProcessingResult } from './imageProcessor';
 import { ExportManager } from './exportManager';
 
@@ -78,12 +79,12 @@ export class BatchProcessor {
     const concurrency = Math.max(1, Math.min(cpuCount - 1, 8));
 
     // Create output subdirectories
-    const pngDir = path.join(outputDir, 'PNG');
+    const jpgDir = path.join(outputDir, 'JPG');
     const svgDir = path.join(outputDir, 'SVG');
     const pdfDir = path.join(outputDir, 'PDF');
     const argoxDir = path.join(outputDir, 'Argox');
 
-    for (const dir of [pngDir, svgDir, pdfDir, argoxDir]) {
+    for (const dir of [jpgDir, svgDir, pdfDir, argoxDir]) {
       if (!fs.existsSync(dir)) {
         fs.mkdirSync(dir, { recursive: true });
       }
@@ -99,8 +100,9 @@ export class BatchProcessor {
       try {
         const result = await this.processor.processImage(filePath, settings);
 
-        // Save PNG
-        await fs.promises.writeFile(path.join(pngDir, `${fileName}.png`), result.buffer);
+        // Save JPG (same base name as original, .jpg extension)
+        const jpgBuffer = await sharp(result.buffer).jpeg({ quality: 95 }).toBuffer();
+        await fs.promises.writeFile(path.join(jpgDir, `${fileName}.jpg`), jpgBuffer);
 
         // Save SVG via tracing
         const svgContent = await this.exportManager.bufferToSvg(result.buffer, result.width, result.height);
