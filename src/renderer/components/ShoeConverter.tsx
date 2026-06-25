@@ -238,6 +238,7 @@ export function ShoeConverter({ onBack }: ShoeConverterProps) {
             originalPreview={originalPreview}
             resultPreview={resultPreview}
             isDragging={isDragging}
+            isProcessing={isProcessing}
           />
 
           {(isProcessing && batchProgress) && (
